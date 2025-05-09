@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tournoivolley.AccueilController">
+    <top>
+        <VBox>
+            <!-- Barre de navigation -->
+            <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
+                <Button fx:id="accueilButton" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="inscriptionButton" text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="equipesButton" text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="joueursButton" text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="planningButton" text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="aideButton" text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Titre de la page -->
+            <HBox alignment="CENTER" style="-fx-background-color: #E1F5FE;" prefHeight="60.0">
+                <Label text="Tournoi de Volley-ball - Accueil" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+            <Label text="Bienvenue sur l'application de gestion du tournoi de volley-ball" style="-fx-font-size: 18px;"/>
+
+            <HBox alignment="CENTER" spacing="50">
+                <VBox alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #E3F2FD; -fx-background-radius: 5;">
+                    <Label text="Équipes inscrites" style="-fx-font-weight: bold;"/>
+                    <Label fx:id="teamsCountLabel" text="0/8 équipes" style="-fx-font-size: 24px;"/>
+                    <ProgressBar fx:id="teamsProgressBar" progress="0.0" prefWidth="200"/>
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #E3F2FD; -fx-background-radius: 5;">
+                    <Label text="Prochain match" style="-fx-font-weight: bold;"/>
+                    <Label fx:id="nextMatchLabel" text="Aucun match programmé" style="-fx-font-size: 16px;"/>
+                </VBox>
+            </HBox>
+
+            <Button fx:id="startInscriptionButton" text="Inscrire une équipe" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #BBDEFB; -fx-padding: 10;">
+            <Label text="© 2025 - Tournoi de Volley-ball" />
+        </HBox>
+    </bottom>
+</BorderPane>

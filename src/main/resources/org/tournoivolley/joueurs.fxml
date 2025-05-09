@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tournoivolley.JoueursController">
+    <top>
+        <VBox>
+            <!-- Barre de navigation -->
+            <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
+                <Button fx:id="accueilButton" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="inscriptionButton" text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="equipesButton" text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="joueursButton" text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="planningButton" text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="aideButton" text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Titre de la page -->
+            <HBox alignment="CENTER" style="-fx-background-color: #E1F5FE;" prefHeight="60.0">
+                <Label text="Liste des joueurs inscrits" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Rechercher:"/>
+                <TextField fx:id="searchField" promptText="Nom ou prénom du joueur" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="searchButton" text="Rechercher"/>
+                <Button fx:id="clearButton" text="Effacer"/>
+            </HBox>
+
+            <TableView fx:id="playersTableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="lastNameColumn" text="Nom"/>
+                    <TableColumn fx:id="firstNameColumn" text="Prénom"/>
+                    <TableColumn fx:id="emailColumn" text="Email"/>
+                    <TableColumn fx:id="teamColumn" text="Équipe"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Label fx:id="totalPlayersLabel" text="Total: 0 joueurs"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #BBDEFB; -fx-padding: 10;">
+            <Label text="© 2025 - Tournoi de Volley-ball" />
+        </HBox>
+    </bottom>
+</BorderPane>

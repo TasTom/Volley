@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tournoivolley.PlanningController">
+    <top>
+        <VBox>
+            <!-- Barre de navigation -->
+            <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
+                <Button fx:id="accueilButton" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="inscriptionButton" text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="equipesButton" text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="joueursButton" text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="planningButton" text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="aideButton" text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Titre de la page -->
+            <HBox alignment="CENTER" style="-fx-background-color: #E1F5FE;" prefHeight="60.0">
+                <Label text="Planning des matchs" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="generatePlanningButton" text="Générer le planning" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <Button fx:id="exportPlanningButton" text="Exporter en PDF" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            </HBox>
+
+            <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <Tab text="Phase de groupes">
+                    <TableView fx:id="groupPhaseTableView">
+                        <columns>
+                            <TableColumn fx:id="groupMatchDateColumn" text="Date et heure"/>
+                            <TableColumn fx:id="groupMatchTeam1Column" text="Équipe 1"/>
+                            <TableColumn fx:id="groupMatchTeam2Column" text="Équipe 2"/>
+                            <TableColumn fx:id="groupMatchScoreColumn" text="Score"/>
+                            <TableColumn fx:id="groupMatchLocationColumn" text="Terrain"/>
+                        </columns>
+                    </TableView>
+                </Tab>
+                <Tab text="Phase finale">
+                    <TableView fx:id="finalPhaseTableView">
+                        <columns>
+                            <TableColumn fx:id="finalMatchDateColumn" text="Date et heure"/>
+                            <TableColumn fx:id="finalMatchTeam1Column" text="Équipe 1"/>
+                            <TableColumn fx:id="finalMatchTeam2Column" text="Équipe 2"/>
+                            <TableColumn fx:id="finalMatchScoreColumn" text="Score"/>
+                            <TableColumn fx:id="finalMatchLocationColumn" text="Terrain"/>
+                            <TableColumn fx:id="finalMatchRoundColumn" text="Phase"/>
+                        </columns>
+                    </TableView>
+                </Tab>
+                <Tab text="Classement">
+                    <TableView fx:id="rankingTableView">
+                        <columns>
+                            <TableColumn fx:id="rankingPositionColumn" text="Position"/>
+                            <TableColumn fx:id="rankingTeamColumn" text="Équipe"/>
+                            <TableColumn fx:id="rankingPointsColumn" text="Points"/>
+                            <TableColumn fx:id="rankingWinsColumn" text="Victoires"/>
+                            <TableColumn fx:id="rankingLossesColumn" text="Défaites"/>
+                            <TableColumn fx:id="rankingSetsColumn" text="Sets"/>
+                        </columns>
+                    </TableView>
+                </Tab>
+            </TabPane>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #BBDEFB; -fx-padding: 10;">
+            <Label text="© 2025 - Tournoi de Volley-ball" />
+        </HBox>
+    </bottom>
+</BorderPane>

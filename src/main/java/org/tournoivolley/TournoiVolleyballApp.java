@@ -20,8 +20,8 @@ public class TournoiVolleyballApp extends Application {
         // Configurer la fenêtre principale
         primaryStage.setTitle("Gestion du Tournoi de Volley-ball");
         primaryStage.setScene(scene);
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(800);
         primaryStage.show();
     }
 

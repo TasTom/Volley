@@ -6,23 +6,26 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import org.tournoivolley.InscriptionController.Player;
-
+/**
+ * Contrôleur pour la boîte de dialogue d'ajout/modification de joueur.
+ * Permet de saisir ou modifier les informations d'un joueur.
+ */
 public class PlayerDialogController {
-    
+
     @FXML
     private TextField firstNameField;
-    
+
     @FXML
     private TextField lastNameField;
-    
+
     @FXML
     private TextField emailField;
-    
+
     private Stage dialogStage;
-    private Player player;
+    private InscriptionController.Player player;
     private boolean confirmClicked = false;
-    
+    private boolean editMode = false;
+
     /**
      * Initialise le contrôleur.
      */
@@ -30,7 +33,7 @@ public class PlayerDialogController {
     private void initialize() {
         // Initialisation...
     }
-    
+
     /**
      * Configure la fenêtre de dialogue
      * @param dialogStage la fenêtre de dialogue
@@ -38,40 +41,66 @@ public class PlayerDialogController {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    
+
     /**
-     * Retourne true si l'utilisateur a cliqué sur le bouton Ajouter
+     * Définit le joueur à modifier
+     * @param player le joueur à modifier
+     */
+    public void setPlayer(InscriptionController.Player player) {
+        this.player = player;
+        this.editMode = true;
+
+        // Pré-remplir les champs avec les informations du joueur
+        firstNameField.setText(player.getFirstName());
+        lastNameField.setText(player.getLastName());
+        emailField.setText(player.getEmail());
+    }
+
+    /**
+     * Retourne true si l'utilisateur a cliqué sur le bouton Ajouter/Modifier
      * @return confirmClicked
      */
     public boolean isConfirmClicked() {
         return confirmClicked;
     }
-    
+
     /**
-     * Retourne le joueur créé
+     * Retourne le joueur créé ou modifié
      * @return player
      */
-    public Player getPlayer() {
+    public InscriptionController.Player getPlayer() {
         return player;
     }
-    
+
     /**
-     * Gère le clic sur le bouton Ajouter
+     * Gère le clic sur le bouton Ajouter/Modifier
      */
     @FXML
     private void handleAdd() {
         if (isInputValid()) {
-            player = new Player(
-                firstNameField.getText().trim(),
-                lastNameField.getText().trim(),
-                emailField.getText().trim()
-            );
-            
+            if (editMode && player != null) {
+                // Mise à jour des informations du joueur existant
+                // Remarque: comme les setters ne sont pas disponibles dans la classe Player fournie,
+                // nous devrons créer une nouvelle instance
+                player = new InscriptionController.Player(
+                        firstNameField.getText().trim(),
+                        lastNameField.getText().trim(),
+                        emailField.getText().trim()
+                );
+            } else {
+                // Création d'un nouveau joueur
+                player = new InscriptionController.Player(
+                        firstNameField.getText().trim(),
+                        lastNameField.getText().trim(),
+                        emailField.getText().trim()
+                );
+            }
+
             confirmClicked = true;
             dialogStage.close();
         }
     }
-    
+
     /**
      * Gère le clic sur le bouton Annuler
      */
@@ -79,28 +108,28 @@ public class PlayerDialogController {
     private void handleCancel() {
         dialogStage.close();
     }
-    
+
     /**
      * Valide les données saisies par l'utilisateur
      * @return true si l'entrée est valide
      */
     private boolean isInputValid() {
         String errorMessage = "";
-        
+
         if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
             errorMessage += "Le prénom est obligatoire!\n";
         }
-        
+
         if (lastNameField.getText() == null || lastNameField.getText().trim().isEmpty()) {
             errorMessage += "Le nom est obligatoire!\n";
         }
-        
+
         if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
             errorMessage += "L'email est obligatoire!\n";
         } else if (!isValidEmail(emailField.getText())) {
             errorMessage += "L'adresse email n'est pas valide!\n";
         }
-        
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
@@ -110,11 +139,16 @@ public class PlayerDialogController {
             alert.setHeaderText("Veuillez corriger les champs invalides");
             alert.setContentText(errorMessage);
             alert.showAndWait();
-            
+
             return false;
         }
     }
-    
+
+    /**
+     * Valide le format de l'adresse email
+     * @param email l'adresse email à valider
+     * @return true si l'email est valide
+     */
     private boolean isValidEmail(String email) {
         // Validation basique d'email
         return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");

@@ -31,13 +31,14 @@
             </HBox>
 
             <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
-                <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-                <Button text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-                <Button text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-                <Button text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-                <Button text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-                <Button text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="accueilButton" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="inscriptionButton" text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="equipesButton" text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="joueursButton" text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="planningButton" text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button fx:id="aideButton" text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
             </HBox>
+
         </VBox>
     </top>
 
@@ -66,18 +67,29 @@
                         <Label text="Téléphone:" style="-fx-font-size: 14; -fx-padding: 10 0 0 0;"/>
                         <TextField fx:id="phoneField" promptText="Numéro de téléphone"/>
 
-                        <Label text="Joueurs: 0/6" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                        <Label fx:id="playerCountLabel" text="Joueurs: 0/6" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
 
-                        <HBox spacing="20" style="-fx-padding: 10 0 0 0;">
+                        <ListView fx:id="playersListView" prefHeight="150.0" />
+
+                        <HBox spacing="10" style="-fx-padding: 10 0 0 0;">
                             <Button text="Ajouter un joueur"
                                     style="-fx-background-color: #FF9800; -fx-text-fill: white;"
-                                    prefWidth="180.0" prefHeight="40.0"
+                                    prefWidth="120.0" prefHeight="30.0"
                                     onAction="#handleAddPlayer"/>
-                            <Button text="Valider"
-                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
-                                    prefWidth="110.0" prefHeight="40.0"
-                                    onAction="#handleSubmit"/>
+                            <Button text="Modifier"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"
+                                    prefWidth="100.0" prefHeight="30.0"
+                                    onAction="#handleEditPlayer"/>
+                            <Button text="Supprimer"
+                                    style="-fx-background-color: #F44336; -fx-text-fill: white;"
+                                    prefWidth="100.0" prefHeight="30.0"
+                                    onAction="#handleRemovePlayer"/>
                         </HBox>
+
+                        <Button text="Valider l'inscription"
+                                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+                                prefWidth="200.0" prefHeight="40.0"
+                                onAction="#handleSubmit"/>
                     </VBox>
 
                     <VBox spacing="20">
@@ -92,24 +104,34 @@
                         <VBox spacing="10" style="-fx-background-color: #f9f9f9; -fx-padding: 15; -fx-border-color: #ddd; -fx-border-radius: 5;">
                             <Label text="État des inscriptions" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
-                            <StackPane>
-                                <ProgressBar progress="0.25" prefWidth="310.0" prefHeight="25.0" style="-fx-accent: #4CAF50;"/>
-                                <Label text="2/8 équipes" alignment="CENTER"/>
-                            </StackPane>
-
                             <HBox spacing="40" style="-fx-padding: 10 0 0 0;">
                                 <VBox spacing="5">
-                                    <Label text="1. Les Smasher's" style="-fx-font-size: 14;"/>
-                                    <Label text="2. Volley Stars" style="-fx-font-size: 14;"/>
-                                    <Label text="3. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
-                                    <Label text="4. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team1Label" text="1. Les Smasher's" style="-fx-font-size: 14;"/>
+                                    <Label fx:id="team2Label" text="2. Volley Stars" style="-fx-font-size: 14;"/>
+                                    <Label fx:id="team3Label" text="3. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team4Label" text="4. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
                                 </VBox>
                                 <VBox spacing="5">
-                                    <Label text="5. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
-                                    <Label text="6. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
-                                    <Label text="7. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
-                                    <Label text="8. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team5Label" text="5. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team6Label" text="6. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team7Label" text="7. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label fx:id="team8Label" text="8. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
                                 </VBox>
+                                <!-- 2. Ajouter des fx:id aux VBox contenant les listes d'équipes -->
+                                <HBox spacing="40" style="-fx-padding: 10 0 0 0;">
+                                    <VBox fx:id="teamsList1" spacing="5">
+                                        <!-- Labels des équipes 1-4 -->
+                                    </VBox>
+                                    <VBox fx:id="teamsList2" spacing="5">
+                                        <!-- Labels des équipes 5-8 -->
+                                    </VBox>
+                                </HBox>
+
+                                <!-- 3. Ajouter un fx:id à la ProgressBar -->
+                                <StackPane>
+                                    <ProgressBar fx:id="teamsProgressBar" progress="0.25" prefWidth="310.0" prefHeight="25.0" style="-fx-accent: #4CAF50;"/>
+                                    <Label fx:id="teamsCountLabel" text="2/8 équipes" alignment="CENTER"/>
+                                </StackPane>
                             </HBox>
                         </VBox>
                     </VBox>
