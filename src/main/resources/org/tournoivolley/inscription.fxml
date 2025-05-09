@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.tournoivolley.InscriptionController"
+            prefHeight="600.0" prefWidth="800.0">
+    <top>
+        <VBox>
+            <HBox style="-fx-background-color: #1E88E5;" alignment="CENTER_LEFT" spacing="10" prefHeight="70.0">
+                <padding>
+                    <Insets left="20.0" right="20.0"/>
+                </padding>
+                <Label text="Tournoi de Volley-ball" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <StackPane>
+                    <Circle radius="25.0" fill="#FF9800"/>
+                    <Circle radius="15.0" fill="WHITE" translateY="-5.0"/>
+                    <Arc type="ROUND" radiusX="20.0" radiusY="20.0" startAngle="220.0" length="100.0"
+                         fill="WHITE" stroke="#FF9800" strokeWidth="1.0"/>
+                </StackPane>
+            </HBox>
+
+            <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
+                <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Équipes" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Joueurs" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Planning" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <BorderPane style="-fx-background-color: white;">
+            <padding>
+                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+            </padding>
+
+            <top>
+                <Label text="Inscription d'une équipe" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            </top>
+
+            <center>
+                <HBox spacing="20">
+                    <VBox spacing="10" style="-fx-background-color: #f9f9f9; -fx-padding: 15; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                        <Label text="Nom de l'équipe:" style="-fx-font-size: 14;"/>
+                        <TextField fx:id="teamNameField" promptText="Entrez le nom de l'équipe"/>
+
+                        <Label text="Responsable:" style="-fx-font-size: 14; -fx-padding: 10 0 0 0;"/>
+                        <TextField fx:id="managerField" promptText="Nom du responsable"/>
+
+                        <Label text="Email:" style="-fx-font-size: 14; -fx-padding: 10 0 0 0;"/>
+                        <TextField fx:id="emailField" promptText="Email de contact"/>
+
+                        <Label text="Téléphone:" style="-fx-font-size: 14; -fx-padding: 10 0 0 0;"/>
+                        <TextField fx:id="phoneField" promptText="Numéro de téléphone"/>
+
+                        <Label text="Joueurs: 0/6" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+
+                        <HBox spacing="20" style="-fx-padding: 10 0 0 0;">
+                            <Button text="Ajouter un joueur"
+                                    style="-fx-background-color: #FF9800; -fx-text-fill: white;"
+                                    prefWidth="180.0" prefHeight="40.0"
+                                    onAction="#handleAddPlayer"/>
+                            <Button text="Valider"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+                                    prefWidth="110.0" prefHeight="40.0"
+                                    onAction="#handleSubmit"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox spacing="20">
+                        <VBox spacing="5" style="-fx-background-color: #E3F2FD; -fx-padding: 15; -fx-border-color: #BBDEFB; -fx-border-radius: 5;">
+                            <Label text="Informations tournoi" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #1565C0;"/>
+                            <Label text="• Date: Samedi 17 mai 2025" style="-fx-font-size: 14;"/>
+                            <Label text="• Limite: 8 équipes (demi-journée)" style="-fx-font-size: 14;"/>
+                            <Label text="• Inscriptions: 9 - 16 mai 2025" style="-fx-font-size: 14;"/>
+                            <Label text="• 6 joueurs par équipe" style="-fx-font-size: 14;"/>
+                        </VBox>
+
+                        <VBox spacing="10" style="-fx-background-color: #f9f9f9; -fx-padding: 15; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                            <Label text="État des inscriptions" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+                            <StackPane>
+                                <ProgressBar progress="0.25" prefWidth="310.0" prefHeight="25.0" style="-fx-accent: #4CAF50;"/>
+                                <Label text="2/8 équipes" alignment="CENTER"/>
+                            </StackPane>
+
+                            <HBox spacing="40" style="-fx-padding: 10 0 0 0;">
+                                <VBox spacing="5">
+                                    <Label text="1. Les Smasher's" style="-fx-font-size: 14;"/>
+                                    <Label text="2. Volley Stars" style="-fx-font-size: 14;"/>
+                                    <Label text="3. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label text="4. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                </VBox>
+                                <VBox spacing="5">
+                                    <Label text="5. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label text="6. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label text="7. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                    <Label text="8. [Disponible]" style="-fx-font-size: 14; -fx-opacity: 0.5;"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </center>
+        </BorderPane>
+    </center>
+
+    <bottom>
+        <HBox style="-fx-background-color: #1E88E5;" prefHeight="20.0"/>
+    </bottom>
+</BorderPane>
