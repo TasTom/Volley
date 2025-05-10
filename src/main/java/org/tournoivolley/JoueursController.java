@@ -10,9 +10,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.geometry.Insets;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import java.io.PrintWriter;
+
 
 public class JoueursController {
     @FXML
@@ -41,6 +51,13 @@ public class JoueursController {
 
     @FXML
     private Button clearButton;
+
+    @FXML
+    private Button exportButton;
+
+    @FXML
+    private Button refreshButton;
+
 
     @FXML
     private TableView<PlayerWithTeam> playersTableView;
@@ -91,22 +108,31 @@ public class JoueursController {
         public String getTeamName() {
             return teamName;
         }
+
+
+
+
     }
 
     @FXML
     private void initialize() {
         // Initialisation des gestionnaires d'événements pour les boutons de navigation
         setupNavigationButtons();
-
         // Configuration du tableau des joueurs
         setupPlayersTable();
-
         // Configuration de la recherche
         setupSearch();
+        // Configuration du bouton d'exportation
+        exportButton.setOnAction(event -> exportPlayersList());
+        // Configuration du bouton de rafraîchissement
+        refreshButton.setOnAction(event -> handleRefresh());
 
+        // Configuration des statistiques des joueurs
+        setupPlayerStats();
         // Chargement des joueurs
         loadAllPlayers();
     }
+
 
     private void setupNavigationButtons() {
         accueilButton.setOnAction(event -> handleAccueilButton());
@@ -153,13 +179,11 @@ public class JoueursController {
     }
 
     private void loadAllPlayers() {
-        // Charger tous les joueurs de toutes les équipes (à adapter selon votre implémentation)
-        // Exemple :
-        // List<InscriptionController.Team> teams = getRegisteredTeams();
-        List<InscriptionController.Team> teams = new ArrayList<>(); // À remplacer par la vraie liste
-
+        // Récupérer toutes les équipes inscrites
+        List<InscriptionController.Team> teams = InscriptionController.getRegisteredTeams();
         allPlayers.clear();
 
+        // Parcourir chaque équipe et ajouter ses joueurs à la liste
         for (InscriptionController.Team team : teams) {
             String teamName = team.getName();
             for (InscriptionController.Player player : team.getPlayers()) {
@@ -167,11 +191,20 @@ public class JoueursController {
             }
         }
 
+        // Mettre à jour le compteur de joueurs
         updateTotalPlayersLabel();
     }
 
     private void updateTotalPlayersLabel() {
         totalPlayersLabel.setText("Total: " + filteredPlayers.size() + " joueurs");
+    }
+
+    @FXML
+    private void handleRefresh() {
+        loadAllPlayers();
+        searchField.clear();
+        filteredPlayers.setPredicate(p -> true);
+        showAlert(Alert.AlertType.INFORMATION, "Actualisation", "La liste des joueurs a été actualisée.");
     }
 
     @FXML
@@ -182,7 +215,7 @@ public class JoueursController {
             Scene scene = accueilButton.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showAlert("Erreur de navigation", "Impossible de charger la page d'accueil: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page d'accueil: " + e.getMessage());
         }
     }
 
@@ -194,7 +227,7 @@ public class JoueursController {
             Scene scene = inscriptionButton.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showAlert("Erreur de navigation", "Impossible de charger la page d'inscription: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page d'inscription: " + e.getMessage());
         }
     }
 
@@ -206,7 +239,7 @@ public class JoueursController {
             Scene scene = equipesButton.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showAlert("Erreur de navigation", "Impossible de charger la page des équipes: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page des équipes: " + e.getMessage());
         }
     }
 
@@ -223,23 +256,109 @@ public class JoueursController {
             Scene scene = planningButton.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showAlert("Erreur de navigation", "Impossible de charger la page du planning: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page du planning: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleAideButton() {
         // Afficher une boîte de dialogue d'aide
-        showAlert("Aide", "Page des joueurs\n\n" +
+        showAlert(Alert.AlertType.ERROR, "Aide", "Page des joueurs\n\n" +
                 "Cette page vous permet de consulter la liste de tous les joueurs inscrits au tournoi. " +
                 "Vous pouvez rechercher un joueur par son nom ou son prénom.");
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    @FXML
+    private void exportPlayersList() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exporter la liste des joueurs");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Fichiers CSV", "*.csv"));
+        fileChooser.setInitialFileName("joueurs_tournoi.csv");
+
+        File file = fileChooser.showSaveDialog(exportButton.getScene().getWindow());
+
+        if (file != null) {
+            try (PrintWriter writer = new PrintWriter(file)) {
+                // Écrire l'en-tête
+                writer.println("Nom,Prénom,Email,Équipe");
+
+                // Écrire les données
+                for (PlayerWithTeam player : filteredPlayers) {
+                    writer.println(
+                            player.getLastName() + "," +
+                                    player.getFirstName() + "," +
+                                    player.getEmail() + "," +
+                                    player.getTeamName()
+                    );
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Export réussi",
+                        "La liste des joueurs a été exportée avec succès.");
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur d'export",
+                        "Une erreur est survenue lors de l'export : " + e.getMessage());
+            }
+        }
+    }
+
+    private void setupPlayerStats() {
+        // Ajouter un écouteur de sélection
+        playersTableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        showPlayerDetails(newValue);
+                    }
+                });
+    }
+
+    private void showPlayerDetails(PlayerWithTeam player) {
+        // Afficher les détails du joueur dans une boîte de dialogue
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Détails du joueur");
+        dialog.setHeaderText(player.getFirstName() + " " + player.getLastName());
+
+        // Créer le contenu
+        VBox content = new VBox(10);
+        content.setPadding(new Insets(20));
+
+        // Informations de base
+        content.getChildren().add(new Label("Équipe: " + player.getTeamName()));
+        content.getChildren().add(new Label("Email: " + player.getEmail()));
+
+        // Générer des statistiques basées sur le nom du joueur (pour simulation)
+        int matchesPlayed = player.getLastName().length() % 10 + 1;
+        int points = player.getFirstName().length() * 5;
+        int aces = player.getLastName().length() % 5;
+
+        // Statistiques
+        content.getChildren().add(new Separator());
+        content.getChildren().add(new Label("Statistiques du tournoi:"));
+        GridPane stats = new GridPane();
+        stats.setHgap(10);
+        stats.setVgap(5);
+        stats.add(new Label("Matchs joués:"), 0, 0);
+        stats.add(new Label(String.valueOf(matchesPlayed)), 1, 0);
+        stats.add(new Label("Points marqués:"), 0, 1);
+        stats.add(new Label(String.valueOf(points)), 1, 1);
+        stats.add(new Label("Services gagnants:"), 0, 2);
+        stats.add(new Label(String.valueOf(aces)), 1, 2);
+        content.getChildren().add(stats);
+
+        // Configurer la boîte de dialogue
+        dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+        dialog.showAndWait();
+    }
+
+
 }

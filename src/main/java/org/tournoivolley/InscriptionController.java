@@ -538,4 +538,9 @@ public class InscriptionController {
             super(message);
         }
     }
+
+    public static List<Team> getRegisteredTeams() {
+        return new ArrayList<>(registeredTeams);
+    }
+
 }

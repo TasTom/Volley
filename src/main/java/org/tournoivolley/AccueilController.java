@@ -1,15 +1,18 @@
 package org.tournoivolley;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
-import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AccueilController {
     @FXML
@@ -40,7 +43,20 @@ public class AccueilController {
     private ProgressBar teamsProgressBar;
 
     @FXML
+    private Label playersCountLabel;
+
+    @FXML
     private Label nextMatchLabel;
+
+    @FXML
+    private Label nextMatchDateLabel;
+
+    @FXML
+    private ListView<String> newsListView;
+
+    // Constante
+    private static final int MAX_TEAMS = 8;
+
 
     @FXML
     private void initialize() {
@@ -49,6 +65,9 @@ public class AccueilController {
 
         // Mise à jour des informations sur les équipes
         updateTeamsInfo();
+
+        setupDashboard();
+        loadNews();
 
         // Configuration du bouton d'inscription
         startInscriptionButton.setOnAction(event -> handleStartInscription());
@@ -151,4 +170,38 @@ public class AccueilController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private void setupDashboard() {
+        // Récupérer les données
+        List<InscriptionController.Team> teams = InscriptionController.getRegisteredTeams();
+        int totalPlayers = 0;
+        for (InscriptionController.Team team : teams) {
+            totalPlayers += team.getPlayers().size();
+        }
+
+        // Mettre à jour les statistiques
+        teamsCountLabel.setText(teams.size() + "/" + MAX_TEAMS + " équipes");
+        teamsProgressBar.setProgress((double) teams.size() / MAX_TEAMS);
+        playersCountLabel.setText(totalPlayers + " joueurs inscrits");
+
+        // Afficher le prochain match s'il y en a
+        if (teams.size() >= 2) {
+            nextMatchLabel.setText(teams.get(0).getName() + " vs " + teams.get(1).getName());
+            nextMatchDateLabel.setText("Samedi prochain à 14h00");
+        } else {
+            nextMatchLabel.setText("Aucun match programmé");
+            nextMatchDateLabel.setText("Inscrivez au moins 2 équipes");
+        }
+    }
+    private void loadNews() {
+        // Simuler des actualités
+        ObservableList<String> news = FXCollections.observableArrayList(
+                "Ouverture des inscriptions pour le tournoi 2025",
+                "Nouveau sponsor : SportEquipment rejoint l'aventure",
+                "Les terrains du gymnase municipal ont été rénovés"
+        );
+        newsListView.setItems(news);
+    }
+
+
 }

@@ -28,10 +28,15 @@
     <center>
         <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0">
             <VBox spacing="10" style="-fx-padding: 10;">
-                <Label text="Équipes" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Équipes" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="filterField" promptText="Rechercher..." prefWidth="150" />
+                </HBox>
                 <ListView fx:id="teamsListView" VBox.vgrow="ALWAYS"/>
                 <HBox spacing="10">
                     <Button fx:id="detailsButton" text="Détails" prefWidth="100"/>
+                    <Button fx:id="refreshButton" text="Actualiser" prefWidth="100" onAction="#handleRefresh" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
                 </HBox>
             </VBox>
 
@@ -59,6 +64,8 @@
                         <TableColumn fx:id="emailColumn" text="Email"/>
                     </columns>
                 </TableView>
+
+                <VBox fx:id="teamStatsContainer" spacing="10" style="-fx-padding: 10 0 0 0;" />
             </VBox>
         </SplitPane>
     </center>

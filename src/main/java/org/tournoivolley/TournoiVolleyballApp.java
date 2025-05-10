@@ -11,7 +11,7 @@ public class TournoiVolleyballApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Charger le fichier FXML principal
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("inscription.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
         Parent root = loader.load();
         
         // Configurer la scène principale

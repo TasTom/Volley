@@ -34,16 +34,25 @@
                     <Label text="Équipes inscrites" style="-fx-font-weight: bold;"/>
                     <Label fx:id="teamsCountLabel" text="0/8 équipes" style="-fx-font-size: 24px;"/>
                     <ProgressBar fx:id="teamsProgressBar" progress="0.0" prefWidth="200"/>
+                    <Label fx:id="playersCountLabel" text="0 joueurs inscrits" style="-fx-font-size: 14px;"/>
                 </VBox>
 
                 <VBox alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #E3F2FD; -fx-background-radius: 5;">
                     <Label text="Prochain match" style="-fx-font-weight: bold;"/>
                     <Label fx:id="nextMatchLabel" text="Aucun match programmé" style="-fx-font-size: 16px;"/>
+                    <Label fx:id="nextMatchDateLabel" text="Inscrivez au moins 2 équipes" style="-fx-font-size: 12px;"/>
                 </VBox>
             </HBox>
 
+            <!-- Ajouter la ListView pour les actualités -->
+            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #E3F2FD; -fx-background-radius: 5;">
+                <Label text="Actualités" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="newsListView" prefHeight="150" prefWidth="400"/>
+            </VBox>
+
             <Button fx:id="startInscriptionButton" text="Inscrire une équipe" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
         </VBox>
+
     </center>
 
     <bottom>

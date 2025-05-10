@@ -28,6 +28,7 @@
         <VBox spacing="10" style="-fx-padding: 10;">
             <HBox spacing="10" alignment="CENTER">
                 <Button fx:id="generatePlanningButton" text="Générer le planning" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <Button fx:id="refreshButton" text="Rafraîchir" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
                 <Button fx:id="exportPlanningButton" text="Exporter en PDF" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
             </HBox>
 
