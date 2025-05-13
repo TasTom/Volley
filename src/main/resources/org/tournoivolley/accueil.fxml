@@ -20,7 +20,7 @@
 
             <!-- Titre de la page -->
             <HBox alignment="CENTER" style="-fx-background-color: #E1F5FE;" prefHeight="60.0">
-                <Label text="Tournoi de Volley-ball - Accueil" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Label text="Tournoi de Volley-ball - Accueil (by TAS Tom)" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
             </HBox>
         </VBox>
     </top>
