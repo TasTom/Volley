@@ -5,10 +5,29 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.shape.Arc?>
+<?import javafx.scene.shape.Circle?>
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tournoivolley.EquipesController">
     <top>
         <VBox>
-            <!-- Barre de navigation -->
+            <HBox style="-fx-background-color: #1E88E5;" alignment="CENTER_LEFT" spacing="10" prefHeight="70.0">
+                <padding>
+                    <Insets left="20.0" right="20.0"/>
+                </padding>
+                <Label text="Tournoi de Volley-ball" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <StackPane>
+                    <Circle radius="25.0" fill="#FF9800"/>
+                    <Circle radius="15.0" fill="WHITE" translateY="-5.0"/>
+                    <Arc type="ROUND" radiusX="20.0" radiusY="20.0" startAngle="220.0" length="100.0"
+                         fill="WHITE" stroke="#FF9800" strokeWidth="1.0"/>
+                </StackPane>
+            </HBox>
+
             <HBox style="-fx-background-color: #2196F3;" alignment="CENTER" spacing="30" prefHeight="40.0">
                 <Button fx:id="accueilButton" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
                 <Button fx:id="inscriptionButton" text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
@@ -18,10 +37,6 @@
                 <Button fx:id="aideButton" text="Aide" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
             </HBox>
 
-            <!-- Titre de la page -->
-            <HBox alignment="CENTER" style="-fx-background-color: #E1F5FE;" prefHeight="60.0">
-                <Label text="Liste des équipes inscrites" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-            </HBox>
         </VBox>
     </top>
 
