@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.util.List;
 
 /**
  * Contrôleur pour la boîte de dialogue d'ajout/modification de joueur.
@@ -20,6 +21,9 @@ public class PlayerDialogController {
 
     @FXML
     private TextField emailField;
+
+    @FXML
+    private java.util.List<InscriptionController.Player> existingPlayers;
 
     private Stage dialogStage;
     private InscriptionController.Player player;
@@ -56,6 +60,22 @@ public class PlayerDialogController {
         emailField.setText(player.getEmail());
     }
 
+    public void setExistingPlayers(List<InscriptionController.Player> players) {
+        this.existingPlayers = players;
+    }
+
+
+    /**
+     * Retourne le joueur créé ou modifié
+     * @return player
+     */
+    public InscriptionController.Player getPlayer() {
+        return player;
+    }
+
+
+
+
     /**
      * Retourne true si l'utilisateur a cliqué sur le bouton Ajouter/Modifier
      * @return confirmClicked
@@ -65,12 +85,71 @@ public class PlayerDialogController {
     }
 
     /**
-     * Retourne le joueur créé ou modifié
-     * @return player
+     * Valide les données saisies par l'utilisateur
+     * @return true si l'entrée est valide
      */
-    public InscriptionController.Player getPlayer() {
-        return player;
+    private boolean isInputValid() {
+        String errorMessage = "";
+
+        if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
+            errorMessage += "Le prénom est obligatoire!\n";
+        }
+
+        if (lastNameField.getText() == null || lastNameField.getText().trim().isEmpty()) {
+            errorMessage += "Le nom est obligatoire!\n";
+        }
+
+        if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
+            errorMessage += "L'email est obligatoire!\n";
+        } else if (!isValidEmail(emailField.getText())) {
+            errorMessage += "L'adresse email n'est pas valide!\n";
+        }
+
+        // Vérifier si le joueur existe déjà
+        if (existingPlayers != null && !existingPlayers.isEmpty()) {
+            String firstName = firstNameField.getText().trim();
+            String lastName = lastNameField.getText().trim();
+            String email = emailField.getText().trim();
+
+            for (InscriptionController.Player existingPlayer : existingPlayers) {
+                // Si on est en mode édition, ignorer le joueur actuel dans la comparaison
+                if (editMode && player != null &&
+                        player.getFirstName().equals(existingPlayer.getFirstName()) &&
+                        player.getLastName().equals(existingPlayer.getLastName()) &&
+                        player.getEmail().equals(existingPlayer.getEmail())) {
+                    continue;
+                }
+
+                // Vérifier si un joueur avec le même email existe déjà
+                if (email.equals(existingPlayer.getEmail())) {
+                    errorMessage += "Un joueur avec cet email existe déjà!\n";
+                    break;
+                }
+
+                // Vérifier si un joueur avec le même nom et prénom existe déjà
+                if (firstName.equals(existingPlayer.getFirstName()) &&
+                        lastName.equals(existingPlayer.getLastName())) {
+                    errorMessage += "Un joueur avec ce nom et prénom existe déjà!\n";
+                    break;
+                }
+            }
+        }
+
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Afficher un message d'erreur
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Données invalides");
+            alert.setHeaderText("Veuillez corriger les champs invalides");
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+
+            return false;
+        }
     }
+
+
 
     /**
      * Gère le clic sur le bouton Ajouter/Modifier
@@ -109,40 +188,8 @@ public class PlayerDialogController {
         dialogStage.close();
     }
 
-    /**
-     * Valide les données saisies par l'utilisateur
-     * @return true si l'entrée est valide
-     */
-    private boolean isInputValid() {
-        String errorMessage = "";
 
-        if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
-            errorMessage += "Le prénom est obligatoire!\n";
-        }
 
-        if (lastNameField.getText() == null || lastNameField.getText().trim().isEmpty()) {
-            errorMessage += "Le nom est obligatoire!\n";
-        }
-
-        if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
-            errorMessage += "L'email est obligatoire!\n";
-        } else if (!isValidEmail(emailField.getText())) {
-            errorMessage += "L'adresse email n'est pas valide!\n";
-        }
-
-        if (errorMessage.length() == 0) {
-            return true;
-        } else {
-            // Afficher un message d'erreur
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Données invalides");
-            alert.setHeaderText("Veuillez corriger les champs invalides");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
-
-            return false;
-        }
-    }
 
     /**
      * Valide le format de l'adresse email

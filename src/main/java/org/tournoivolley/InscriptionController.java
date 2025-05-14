@@ -379,6 +379,13 @@ public class InscriptionController {
         // Configurer le contrôleur
         controller.setDialogStage(dialogStage);
 
+        // Collecter tous les joueurs existants
+        List<Player> allPlayers = new ArrayList<>(players);
+        for (Team team : registeredTeams) {
+            allPlayers.addAll(team.getPlayers());
+        }
+        controller.setExistingPlayers(allPlayers);
+
         // Afficher la boîte de dialogue et attendre qu'elle soit fermée
         dialogStage.showAndWait();
 
@@ -408,6 +415,13 @@ public class InscriptionController {
         controller.setDialogStage(dialogStage);
         controller.setPlayer(player);
 
+        // Collecter tous les joueurs existants
+        List<Player> allPlayers = new ArrayList<>(players);
+        for (Team team : registeredTeams) {
+            allPlayers.addAll(team.getPlayers());
+        }
+        controller.setExistingPlayers(allPlayers);
+
         // Afficher la boîte de dialogue et attendre qu'elle soit fermée
         dialogStage.showAndWait();
 
@@ -418,6 +432,7 @@ public class InscriptionController {
             return null;
         }
     }
+
 
     private void updatePlayerCount() {
         if (playerCountLabel != null) {
